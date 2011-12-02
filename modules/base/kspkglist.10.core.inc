@@ -58,3 +58,10 @@ usb_modeswitch-data
 
 # provides lokkit, needed for disabling SELinux
 system-config-firewall-base
+
+# helpful tools during development
+ntpdate
+pv
+screen
+strace
+
