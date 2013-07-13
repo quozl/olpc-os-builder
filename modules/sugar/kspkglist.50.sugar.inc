@@ -14,7 +14,6 @@ sugar-cp-power
 sugar-cp-updater
 
 # additional sugar packages
-libxml2-python
 webkitgtk3
 espeak
 etoys
@@ -36,7 +35,6 @@ gnash-plugin
 totem-mozplugin
 
 # Terminal
-vte
 vte3
 
 # dependencies for Epub support in Read
