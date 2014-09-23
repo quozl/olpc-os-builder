@@ -41,6 +41,11 @@ sed -i -e 's:/sbin/agetty.*:/sbin/agetty --login-pause --autologin root --noclea
 sed -i -e 's:/sbin/agetty.*:/sbin/agetty -L -l /bin/bash -w -n %I 115200 vt100:' \
 	/lib/systemd/system/serial-getty\@.service
 
+# define HOME for serial console, a job that /usr/bin/login normally does,
+# so that the bash builtin cd works properly.
+sed -i -e '/^ExecStart/aEnvironment=HOME=/root' \
+	/lib/systemd/system/serial-getty\@.service
+
 # Enable tmpfs mounts dictated by rwtab (#9637)
 mkdir -p /security/state
 sed -i -e 's/TEMPORARY_STATE=no/TEMPORARY_STATE=yes/' \
