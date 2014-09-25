@@ -57,3 +57,6 @@ firewalld
 
 # local network service discovery, #12730
 nss-mdns
+
+# FIXME: temporary patches waiting for upstream
+patch
