@@ -33,3 +33,9 @@ index d7bee8f..16a9de8 100644
      ctx_surface = cairo.Context(surface)
      Gdk.cairo_set_source_pixbuf(ctx_surface, pixbuf, 0, 0)
 EOF
+
+# FIXME: waiting for release after TamTam*-67
+for x in TamTamEdit TamTamJam TamTamMini TamTamSynthLab; do
+    sed -i 's/iphase itable/iphase, itable/g' \
+	/home/olpc/Activities/$x.activity/common/Resources/tamtamorc.csd
+done
