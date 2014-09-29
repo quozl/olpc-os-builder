@@ -76,7 +76,7 @@ cat >/etc/statetab.d/olpc <<EOF
 /etc/hosts
 /etc/timezone
 /var/lib/dbus
-/var/lib/random-seed
+/var/lib/systemd/random-seed
 /etc/NetworkManager/system-connections
 EOF
 
