@@ -34,6 +34,11 @@ squeak-vm
 python-cjson
 libabiword
 
+# FIXME: missing dependencies in sugar-cp-modemconfiguration
+# won't be fixed in an upstream package until Fedora 21,
+# see #12828, SL:#4784, BZ:#1146534
+mobile-broadband-provider-info
+
 # Browse
 gnash-plugin
 totem-mozplugin
