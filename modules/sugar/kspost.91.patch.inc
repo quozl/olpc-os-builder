@@ -1,5 +1,5 @@
 # FIXME: waiting for a sugar release after sugar-0.102.0-1.fc20.noarch.rpm
-patch /usr/share/sugar/extensions/cpsection/backup/view.py <<EOF || true
+patch -f /usr/share/sugar/extensions/cpsection/backup/view.py <<EOF || true
 diff --git a/extensions/cpsection/backup/view.py b/extensions/cpsection/backup/view.py
 index f0fe580..ecfca66 100644
 --- a/extensions/cpsection/backup/view.py
@@ -15,7 +15,7 @@ index f0fe580..ecfca66 100644
 EOF
 
 # FIXME: waiting for activity release after ImageViewer-59
-patch /home/olpc/Activities/ImageViewer.activity/ImageView.py << EOF || true
+patch -f /home/olpc/Activities/ImageViewer.activity/ImageView.py << EOF || true
 diff --git a/ImageView.py b/ImageView.py
 index d7bee8f..16a9de8 100644
 --- a/ImageView.py
