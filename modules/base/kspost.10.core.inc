@@ -255,13 +255,13 @@ chmod u+s /usr/bin/ping
 # adding a bogus gateway when using ad-hoc fixes Salut, without which
 # buddy icons and shared activities do not appear.  this is a
 # regression introduced by fedora 20.  see also #9669 for more
-# history.
+# history.  see also #12817 (for the metric preference).
 cat >/etc/NetworkManager/dispatcher.d/99-adhoc-default-route <<EOF
 #!/bin/bash
 [[ "\$1" = "eth0" ]] || exit 0
 [[ "\$2" = "up" ]] || exit 0
 [[ "\${CONNECTION_ID:6:14}" = "Ad-hoc Network" ]] || exit 0
 [[ "\${IP4_ADDRESS_0:0:7}" = "169.254" ]] || exit 0
-/usr/sbin/ip route add default via 169.254.1.1
+/usr/sbin/ip route add default via 169.254.1.1 metric 2048
 EOF
 chmod +x /etc/NetworkManager/dispatcher.d/99-adhoc-default-route
