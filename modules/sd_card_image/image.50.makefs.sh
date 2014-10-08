@@ -39,12 +39,7 @@ auto_size()
 
 	local usedblocks=$(( bcount - freeblocks ))
 	local usedsize=$(( usedblocks * bsize ))
-
-	# In my testing, the new image has about 100mb free even when we try
-	# to match the size exactly. So we use the exact size; if we find that
-	# we need to add some 'safety' space later, we can add it.
-	#local newsize=$(( usedsize + (20*1024*1024) ))
-	local newsize=$usedsize
+	local newsize=$(( usedsize + (50*1024*1024) ))
 
 	# Increase by size of boot partition
 	(( newsize += $ROOT_PARTITION_START_BLOCK * $BLOCK_SIZE ))
