@@ -34,6 +34,10 @@ squeak-vm
 python-cjson
 libabiword
 
+# sugar backgrounds from German Ruiz
+# used by sugar-cp-background
+sugar-backgrounds
+
 # FIXME: missing dependencies in sugar-cp-modemconfiguration
 # won't be fixed in an upstream package until Fedora 21,
 # see #12828, SL:#4784, BZ:#1146534
