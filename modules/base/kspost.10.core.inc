@@ -80,6 +80,10 @@ cat >/etc/statetab.d/olpc <<EOF
 /etc/NetworkManager/system-connections
 EOF
 
+# random-seed is created by package install,
+# so destroy it before generating contents, fix for #12820
+rm -f /var/lib/systemd/random-seed
+
 # make sure statetab is set up before recording a random seed during boot
 # https://bugzilla.redhat.com/show_bug.cgi?id=808907
 sed -i -e '/Before=/ s/$/ systemd-random-seed-load.service/' /lib/systemd/system/fedora-readonly.service
