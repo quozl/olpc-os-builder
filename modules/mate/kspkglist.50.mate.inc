@@ -1,0 +1,43 @@
+# mate desktop
+mate-desktop
+mate-settings-daemon
+mate-file-manager
+mate-themes
+mage-backgrounds
+mate-icon-theme
+mate-terminal
+
+# allow switching from Sugar
+olpc-switch-desktop
+
+# GNOME dependencies. Listed explicitly to prevent equivalent components
+# from other desktops being brought in instead
+# PolicyKit-gnome
+# notification-daemon
+
+# internet
+epiphany
+
+# office
+abiword
+gnumeric
+evince
+
+# graphics
+eog
+inkscape
+gimp
+
+# audio & video
+audacity
+totem
+totem-mozplugin
+
+# more desktop stuff
+file-roller
+gedit
+gnash-plugin
+network-manager-applet
+nm-connection-editor
+xdg-user-dirs-gtk
+
