@@ -3,7 +3,7 @@ mate-desktop
 mate-settings-daemon
 mate-file-manager
 mate-themes
-mage-backgrounds
+mate-backgrounds
 mate-icon-theme
 mate-terminal
 
