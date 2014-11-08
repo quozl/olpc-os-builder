@@ -269,3 +269,9 @@ cat >/etc/NetworkManager/dispatcher.d/99-adhoc-default-route <<EOF
 /usr/sbin/ip route add default via 169.254.1.1 metric 2048
 EOF
 chmod +x /etc/NetworkManager/dispatcher.d/99-adhoc-default-route
+
+# fix serial console enter key handling (#12807)
+# revisit after fedora 20 when https://git.kernel.org/cgit/utils/util-linux/util-linux.git/commit/?id=bb280f79f188f910c41e97fd5fa8889ae8b76d62 reaches util-linux package
+cat >>/root/.bashrc <<EOF
+[[ "$TERM" == "vt100" ]] && stty icrnl
+EOF
