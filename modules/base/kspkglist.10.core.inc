@@ -58,3 +58,6 @@ firewalld
 
 # local network service discovery, #12730
 nss-mdns
+
+# time synchronisation
+ntpdate
