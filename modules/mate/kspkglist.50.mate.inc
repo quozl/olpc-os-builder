@@ -41,3 +41,5 @@ network-manager-applet
 nm-connection-editor
 xdg-user-dirs-gtk
 
+# for #12847 and #12834
+mesa-dri-drivers
