@@ -60,6 +60,3 @@ nss-mdns
 
 # time synchronisation
 ntpdate
-
-# FIXME: temporary patches waiting for upstream
-patch
