@@ -1,6 +1,8 @@
 // Handle partitions
 #include <stdio.h>
 #include <stdint.h>
+#include <pthread.h>
+#include <unistd.h>
 #include <linux/fiemap.h>
 #include <linux/fs.h>
 
@@ -11,7 +13,6 @@
 static FILE *outfile;
 static FILE *zfile;
 static int hashid;
-static unsigned char *zbuf;
 static long zbufsize;
 static long zblocksize;
 static char *hashname;
@@ -37,7 +38,10 @@ static void run_cmd(int res, int line, char *file, char *cmd)
    }
 }
 
-static void write_block(long blocknum, unsigned char *buf)
+pthread_mutex_t m_write;
+pthread_mutex_t m_read;
+
+static void write_block(long blocknum, unsigned char *buf, unsigned char *zbuf)
 {
     unsigned char md[MAXBLOCKSIZE];
     unsigned long mdlen;
@@ -53,6 +57,7 @@ static void write_block(long blocknum, unsigned char *buf)
         fprintf(stderr, "Compress failure at block 0x%lx - %d\n", blocknum, zresult);
     }
 
+    pthread_mutex_lock(&m_write);
     fprintf(outfile, "zblock: %lx %lx %s ", blocknum, zlen, hashname);
     for(j=0; j<mdlen; j++)
         fprintf(outfile,"%02x",md[j]);
@@ -64,12 +69,18 @@ static void write_block(long blocknum, unsigned char *buf)
     fprintf(zfile, "\n");
     fwrite(zbuf, sizeof(char), zlen, zfile);
     fprintf(zfile, "\n");
+    pthread_mutex_unlock(&m_write);
 }
 
-static int read_block(unsigned char *buf, FILE *infile, int is_last_block)
+static int read_block(long blocknum, unsigned char *buf, FILE *infile, int is_last_block)
 {
-    int readlen = fread(buf, 1, zblocksize, infile);
+    int readlen;
     unsigned char *p;
+
+    pthread_mutex_lock(&m_read);
+    fseeko(infile, (uint64_t) blocknum * zblocksize, SEEK_SET);
+    readlen = fread(buf, 1, zblocksize, infile);
+    pthread_mutex_unlock(&m_read);
 
     if (readlen != zblocksize && readlen && is_last_block) {
         for (p = &buf[readlen]; p < &buf[zblocksize]; p++) {
@@ -78,6 +89,41 @@ static int read_block(unsigned char *buf, FILE *infile, int is_last_block)
         readlen = zblocksize;
     }
     return readlen;
+}
+
+struct thread
+{
+    pthread_t id;
+    FILE *infile;
+    long start, end, increment;
+};
+
+static void *task(void *arg)
+{
+    struct thread *thread = arg;
+    long i;
+    int readlen;
+    unsigned char *buf, *zbuf;
+
+    buf = malloc(zblocksize);
+    LTC_ARGCHK(buf != 0);
+
+    zbuf = malloc(zbufsize);
+    LTC_ARGCHK(zbuf != 0);
+
+    for (i=thread->start; i < thread->end; i += thread->increment) {
+        if (!eblocks_used[i])
+            continue;
+
+        readlen = read_block(i, buf, thread->infile, i == eblocks-1);
+        LTC_ARGCHK(readlen == zblocksize);
+
+        write_block(i, buf, zbuf);
+        fprintf(stdout, "\r%ld", i);  fflush(stdout);
+    }
+
+    free(zbuf);
+    free(buf);
 }
 
 struct fiemap *read_fiemap(int fd)
@@ -170,11 +216,13 @@ int main(int argc, char **argv)
     char          *fname;
     unsigned char *buf;  // EBLOCKSIZE
     FILE          *infile;
-    long          i;
     off_t         insize;
     int		  readlen;
 
     int		  skip;
+    int		  i, n;
+    struct thread *threads;
+    unsigned char *zbuf;
 
     if (argc < 6) { 
         fprintf(stderr, "%s: zblocksize hashname signed_file_name spec_file_name zdata_file_name [ #blocks ]\n", argv[0]);
@@ -250,25 +298,34 @@ int main(int argc, char **argv)
 
     /* wipe the partition table first in case of partial completion */
     memset(buf, 0, zblocksize);
-    write_block(0, buf);
+    write_block(0, buf, zbuf);
 
-    /* make a hash of the file */
-    for (i=1; i < eblocks; i++) {
-        if (!eblocks_used[i])
-            continue;
+    pthread_mutex_init(&m_read, NULL);
+    pthread_mutex_init(&m_write, NULL);
 
-        fseeko(infile, (uint64_t) i * zblocksize, SEEK_SET);
-        readlen = read_block(buf, infile, i == eblocks-1);
-        LTC_ARGCHK(readlen == zblocksize);
+    n = sysconf(_SC_NPROCESSORS_ONLN);
+    fprintf(stderr, "processors = %d\n", n);
 
-        write_block(i, buf);
-        fprintf(stdout, "\r%ld", i);  fflush(stdout);
+    threads = calloc(sizeof(struct thread), n);
+    for(i=0; i<n; i++) {
+      threads[i].infile = infile;
+      threads[i].start = 1 + i;
+      threads[i].end = eblocks;
+      threads[i].increment = n;
+      pthread_create(&threads[i].id, NULL, &task, &threads[i]);
     }
 
-    fseek(infile, 0L, SEEK_SET);
-    readlen = read_block(buf, infile, 0 == eblocks-1);
+    for(i=0; i<n; i++) {
+      pthread_join(threads[i].id, NULL);
+    }
+    free(threads);
+
+    pthread_mutex_destroy(&m_read);
+    pthread_mutex_destroy(&m_write);
+
+    readlen = read_block(0, buf, infile, 0 == eblocks-1);
     LTC_ARGCHK(readlen == zblocksize);
-    write_block(0, buf);
+    write_block(0, buf, zbuf);
 
     fprintf(outfile, "zblocks-end:\n");
     fprintf(zfile,   "zblocks-end:\n");
