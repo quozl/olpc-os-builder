@@ -180,7 +180,7 @@ static long process_extent(struct fiemap_extent *ex)
 	long first_eblock = ex->fe_logical / zblocksize;
 	long last_eblock = last_byte / zblocksize;
 
-	printf("Extent(%lld, %lld) occupies eblocks %d to %d\n", ex->fe_logical, ex->fe_length, first_eblock, last_eblock);
+	printf("Extent(%lld, %lld) occupies eblocks %ld to %ld\n", ex->fe_logical, ex->fe_length, first_eblock, last_eblock);
 	for (i = first_eblock; i <= last_eblock; i++)
 		eblocks_used[i] = 1;
 
