@@ -39,3 +39,30 @@ The workaround is to use this module, which adds the Adobe repository to the
 build and yum repository configuration, includes the package in the build,
 and includes a small amount of hackery to make sure that the plugin
 installation is performed after installation of all other packages.
+
+
+== Security Considerations ==
+
+The Adobe Flash plugin is most appropriate for use with Flash learning
+content that is kept secure from tampering.  At time of writing, it is
+not needed for video playback on YouTube and many other sites.  Those
+sites now use HTML5, and the HTML5 support in Firefox 35 on Fedora 20
+works well.
+
+When deploying a build with Adobe Flash for general use, deploy
+additional security precautions:
+
+- network boundary filtering, to prevent malicious Flash execution,
+
+- a security update delivery mechanism, so that when the next
+  vulnerability is being exploited the laptops in the field can be
+  protected.
+
+If these precautions are not taken, the risk of remote code execution
+is high.
+
+References:
+
+http://en.wikipedia.org/wiki/Comparison_of_HTML5_and_Flash
+http://en.wikipedia.org/wiki/Adobe_Flash_Player#Security
+http://en.wikipedia.org/wiki/Adobe_Flash#Implementational_vulnerabilities
