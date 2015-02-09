@@ -60,3 +60,6 @@ nss-mdns
 
 # time synchronisation
 ntpdate
+
+# for local patches to sugar
+patch
