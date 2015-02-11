@@ -23,10 +23,16 @@ for var in os.environ:
     addrepos.append((for_excludes, name, url))
 
 # generate excludes info
-for for_excludes, name, url in addrepos:
+for for_excludes, name, baseurl in addrepos:
     if not for_excludes:
         continue
-    fd = ooblib.cachedurlopen(url + "/repodata/primary.xml.gz")
+
+    print >>sys.stderr, "Reading repository information for", baseurl
+    repomd = ooblib.get_repomd(baseurl)
+    url = baseurl + '/' + repomd['primary']
+
+    print >>sys.stderr, "Reading package information from", url
+    fd = ooblib.cachedurlopen(url)
     data = fd.read()
     fd.close()
     fd = GzipFile(fileobj=StringIO(data))
