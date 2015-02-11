@@ -6,6 +6,9 @@
 # Only include the repo when a local plugin hasn't been provided
 
 path=$(read_config adobe_flash plugin_path)
-[ -n "$path" ] && exit 0
+if [ -n "$path" ]; then
+    [ ! -e "$path" ] && echo "adobe_flash.plugin_path is invalid" >&2 && exit 1
+    exit 0
+fi
 
 echo "repo --name=adobe --baseurl=http://linuxdownload.adobe.com/linux/i386/"
