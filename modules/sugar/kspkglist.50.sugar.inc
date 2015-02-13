@@ -8,7 +8,6 @@ sugar-toolkit-gtk3
 sugar-cp-backup
 sugar-cp-datetime
 sugar-cp-frame
-sugar-cp-language
 sugar-cp-modemconfiguration
 sugar-cp-network
 sugar-cp-power
