@@ -1,7 +1,7 @@
 # mate desktop
 mate-desktop
 mate-settings-daemon
-mate-file-manager
+caja
 mate-themes
 mate-backgrounds
 mate-icon-theme
