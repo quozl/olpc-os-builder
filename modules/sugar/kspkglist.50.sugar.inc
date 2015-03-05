@@ -31,6 +31,10 @@ csound-python
 pygame
 python-alsaaudio
 squeak-vm
+
+# Record, Measure, and Jukebox
+gstreamer-python
+
 python-cjson
 libabiword
 
