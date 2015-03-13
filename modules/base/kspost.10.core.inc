@@ -256,3 +256,6 @@ ln -s /dev/null /etc/systemd/system/systemd-update-utmp-shutdown.service
 # system. as this is a useful network diagnosis tool, and used by ds-backup,
 # make it available to non-root users again (#12427)
 chmod u+s /usr/bin/ping
+
+# undo a change for fedora 20 which breaks runin
+sed -i -e 's^/usr/bin/hciconfig^/usr/sbin/hciconfig^' /runin/runin-bluetooth
