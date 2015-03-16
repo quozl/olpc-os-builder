@@ -258,4 +258,5 @@ ln -s /dev/null /etc/systemd/system/systemd-update-utmp-shutdown.service
 chmod u+s /usr/bin/ping
 
 # undo a change for fedora 20 which breaks runin
-sed -i -e 's^/usr/bin/hciconfig^/usr/sbin/hciconfig^' /runin/runin-bluetooth
+sed -i -e 's^/usr/bin/hciconfig^/usr/sbin/hciconfig^' \
+    /runin/runin-bluetooth || true
