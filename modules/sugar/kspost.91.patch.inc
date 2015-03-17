@@ -238,13 +238,3 @@ index d46585f..5f4f352 100644
 1.8.3.2
 
 EOF
-
-# hide the audio icon while it does not work #12867
-(cd /usr/share/sugar/extensions/deviceicon && mv audio.py audio.py.orig)
-
-cat >> /usr/local/bin/olpc-12867-reproduce <<EOF
-#!/bin/bash
-(cd /usr/share/sugar/extensions/deviceicon && sudo mv audio.py.orig audio.py)
-service olpc-dm restart
-EOF
-chmod +x /usr/local/bin/olpc-12867-reproduce
