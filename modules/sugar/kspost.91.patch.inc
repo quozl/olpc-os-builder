@@ -238,3 +238,45 @@ index d46585f..5f4f352 100644
 1.8.3.2
 
 EOF
+
+patch -f /usr/share/sugar/extensions/cpsection/language/model.py <<EOF || true
+From 3057521d37891cc0334b2981979517997a884ef1 Mon Sep 17 00:00:00 2001
+From: James Cameron <quozl@laptop.org>
+Date: Mon, 30 Mar 2015 11:13:07 +1100
+Subject: [PATCH 2/2] fix language control panel on XO es_UY keyboards
+
+My Settings Language showed English USA on XO-4 laptops with LO tag set
+to es_UY.UTF-8 and Spanish keyboards.  It should show Spanish Uruguay.
+
+Workaround is to ignore what is shown and change it.
+
+Cause was unhandled newline when reading $HOME/.i18n file.  As a result,
+following code to convert UTF-8 to utf8 did not run, and so the language
+setting could not be found in "locale -av" output.  The default language
+setting was used.
+
+Fix is to strip the whitespace from the end of the line.
+
+Reported-by: Walter Bender <walter.bender@gmail.com>
+Reported-by: Samuel Greenfeld <samuel@greenfeld.org>
+Signed-off-by: James Cameron <quozl@laptop.org>
+---
+ extensions/cpsection/language/model.py | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/extensions/cpsection/language/model.py b/extensions/cpsection/language/model.py
+index 4730553..23384dd 100644
+--- a/extensions/cpsection/language/model.py
++++ b/extensions/cpsection/language/model.py
+@@ -119,6 +119,7 @@ def get_languages():
+             langlist = lang.split(':')
+         elif line.startswith('LANG='):
+             lang = line[5:].replace('"', '')
++            lang = lang.strip()
+             if lang.endswith('UTF-8'):
+                 lang = lang.replace('UTF-8', 'utf8')
+ 
+-- 
+1.8.3.2
+
+EOF
