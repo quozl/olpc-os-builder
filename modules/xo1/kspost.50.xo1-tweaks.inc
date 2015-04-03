@@ -11,3 +11,6 @@ ln -sf /lib/systemd/system/serial-getty@.service \
 
 # reduce animation rate during activity start, as it steals from activity
 sed -i 's/_INTERVAL = 100/_INTERVAL = 500/g' /usr/lib/python2.7/site-packages/jarabe/view/pulsingicon.py
+
+# allocate a swap file
+dd if=/dev/zero of=/var/swap bs=1024k count=64
