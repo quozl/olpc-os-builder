@@ -50,7 +50,6 @@ auto_size()
 make_image()
 {
 	local disk_size=$(auto_size)
-	local ext="zd"
 
 	echo "Making image of size $disk_size"
 
@@ -60,7 +59,7 @@ make_image()
 	local num_cylinders=$(($num_blocks / $NUM_HEADS / $NUM_SECTORS_PER_TRACK))
 	local image_size=$(($num_cylinders * $NUM_HEADS * $NUM_SECTORS_PER_TRACK * $BLOCK_SIZE))
 
-	local img=$intermediatesdir/$(image_name).$ext.disk.img
+	local img=$intermediatesdir/$(image_name).zd.disk.img
 
 	dd if=/dev/zero of=$img bs=$BLOCK_SIZE count=0 seek=$(($image_size / $BLOCK_SIZE))
 

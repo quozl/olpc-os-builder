@@ -8,10 +8,7 @@ make_zd=$(read_config sd_card_image make_zd)
 osname=$(image_name)
 
 function make_zd() {
-	local ext=$1
-	[ -z "$ext" ] && ext="zd"
-
-	local output_name=$osname.$ext
+	local output_name=$osname.zd
 	local diskimg=$intermediatesdir/$output_name.disk.img
 	local output=$outputdir/$output_name
 
@@ -37,13 +34,4 @@ function make_zd() {
 
 }
 
-find_option_values sizes sd_card_image size
-for vals in "${sizes[@]}"; do
-	disk_size=${vals%,*}
-	ext=
-	expr index "$vals" ',' &>/dev/null && ext=${vals#*,}
-	make_zd $ext
-done
-
-# When no size options were specified, we make a default image.
-[[ ${#sizes[@]} == 0 ]] && make_zd
+make_zd
