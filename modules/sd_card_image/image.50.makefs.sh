@@ -49,13 +49,8 @@ auto_size()
 
 make_image()
 {
-	local disk_size=$1
-	local ext=$2
-	[ -z "$ext" ] && ext="zd"
-
-	if [ "$disk_size" = "auto" ]; then
-		disk_size=$(auto_size)
-	fi
+	local disk_size=$(auto_size)
+	local ext="zd"
 
 	echo "Making image of size $disk_size"
 
@@ -132,14 +127,4 @@ EOF
 	# FIXME: any value to running e2fsck now? maybe with -D ?
 }
 
-
-find_option_values sizes sd_card_image size
-for val in "${sizes[@]}"; do
-	disk_size=${val%,*}
-	ext=
-	expr index "$vals" ',' &>/dev/null && ext=${vals#*,}
-	make_image $disk_size $ext
-done
-
-# If no sizes were specified, create an image with automatic size.
-[[ ${#sizes[@]} == 0 ]] && make_image auto
+make_image auto
