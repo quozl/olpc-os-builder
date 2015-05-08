@@ -89,6 +89,7 @@ sed -i -e '/Before=/ s/$/ systemd-random-seed-load.service/' /lib/systemd/system
 # systemd actually does that during boot at systemd-random-seed-load time.
 # that is sufficient for our needs, and works around the shutdown issue
 # described at https://bugzilla.redhat.com/show_bug.cgi?id=808907#c7
+rm -f /etc/systemd/system/firewalld.service
 for i in fedora-loadmodules mdmonitor-takeover systemd-readahead-collect \
 		fedora-wait-storage fedora-storage-init fedora-storage-init-late \
 		fedora-autorelabel fedora-autorelabel-mark systemd-random-seed-save \
