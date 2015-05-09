@@ -25,6 +25,7 @@ install_activities = ooblib.read_config_bool('sugar_activity_group',
                                              'install_activities')
 systemwide = ooblib.read_config_bool('sugar_activity_group',
                                      'activity_group_systemwide')
+skip = ooblib.read_config('sugar_activity_group', 'skip').split(',')
 
 if install_activities:
     vmaj = int(ooblib.read_config('global', 'olpc_version_major'))
@@ -74,6 +75,9 @@ if install_activities:
     for name, info in results.items():
         (version, url) = microformat.only_best_update(info)
         print >>sys.stderr, "Examining %s v%s: %s" % (name, version, url)
+        if name in skip:
+            print >>sys.stderr, "Dropping, is in skip list"
+            continue
 
         path = os.path.basename(urlparse.urlsplit(url)[2])
         localpath = os.path.join(cache, path)
