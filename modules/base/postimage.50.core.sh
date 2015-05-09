@@ -35,6 +35,7 @@ find $fsmount -name activity.info \
   sed -e "s%$fsmount%%g" \
       -e 's/\/home\/olpc\/Activities\///g' \
       -e 's/.activity\/activity\/activity.info//g' | \
+  grep -v '%(activity_version)' | \
   sort > $actlist
 
 # generate a library version listing for comparison.
