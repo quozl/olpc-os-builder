@@ -10,6 +10,7 @@ automatic=true
 
 [org.sugarlabs.collaboration]
 jabber-server=''
+social-help-server=''
 
 [org.sugarlabs.user]
 default-nick='disabled'
