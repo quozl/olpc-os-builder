@@ -135,10 +135,3 @@ if systemwide:
     print "echo '%s' > $INSTALL_ROOT/etc/olpc-update/activity-groups" % baseurl
 else:
     print "echo '%s' > $INSTALL_ROOT/home/olpc/Activities/.groups" % baseurl
-
-print "cat >/usr/share/glib-2.0/schemas/sugar_activity_group.oob.gschema.override <<EOF"
-print "[org.sugarlabs.update]"
-print "backend='microformat.MicroformatUpdater'"
-print "microformat-update-url='%s'" % baseurl
-print "EOF"
-print "/usr/bin/glib-compile-schemas /usr/share/glib-2.0/schemas"
