@@ -3,24 +3,23 @@
 
 . $OOB__shlib
 
-add=$(read_config sugar favorites_view_add)
-del=$(read_config sugar favorites_view_del)
+show=$(read_config sugar show_activities)
+hide=$(read_config sugar hide_activities)
 
-if [[ -n "$add" ]]; then
+if [[ -n "$hide" ]]; then
 	oIFS=$IFS
 	IFS=$'\n\t, '
-	for activity in $add; do
-		echo "echo $activity >> /usr/share/sugar/data/activities.defaults"
+	for activity in $hide; do
+		echo "echo $activity >> /usr/share/sugar/data/activities.hidden"
 	done
 	IFS=$oIFS
 fi
 
-if [[ -n "$del" ]]; then
+if [[ -n "$show" ]]; then
 	oIFS=$IFS
 	IFS=$'\n\t, '
-	for activity in $del; do
-		echo "sed -i -e '/^$activity$/d' /usr/share/sugar/data/activities.defaults"
+	for activity in $show; do
+		echo "sed -i -e '/^$activity$/d' /usr/share/sugar/data/activities.hidden"
 	done
 	IFS=$oIFS
 fi
-

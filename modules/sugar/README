@@ -1,22 +1,31 @@
 This module adds the Sugar learning environment to the build.
 
-It has 2 optional configuration options which let you add or remove activities
-from the default favorites view, and a list of protected activities to disable
-the posibility of erasing them by the user.
+It has optional configuration options which let you change the hidden
+activities list, and a list of protected activities to disable erasing
+an activity.
 
 All accept comma-separated lists of activity IDs.
 
 Example:
 
 [sugar]
-favorites_view_add=
-	org.sugarlabs.InfoSlicer,
-	org.sugarlabs.IRC,
-	org.laptop.StopWatchActivity,
-	org.laptop.community.Finance
-favorites_view_del=
-	org.laptop.Terminal,
-	org.laptop.Log
+
+# show the normally hidden terminal activity
+show_activities=
+	org.laptop.Terminal
+
+# hide the normally visible IRC activity
+hide_activities=
+	org.sugarlabs.IRC
+
+# protect certain activities from erase
 protected_activities=org.laptop.WebActivity,
 	org.laptop.Terminal,
 	org.laptop.Log
+
+--
+
+favorites_view_del abd favorites_view_add are deprecated, because with
+Sugar 0.107.0.olpc.3 and later all activities are favorites unless
+they are listed the activities.hidden file supplied by the Sugar
+package.
