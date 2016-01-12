@@ -20,3 +20,5 @@ echo "mkdir -p /etc/olpc-configure"
 	echo "echo '$default_kbd_variant' > /etc/olpc-configure/default-kbd-variant"
 [ -n "$default_kbd_layout" ] && \
 	echo "echo '$default_kbd_layout' > /etc/olpc-configure/default-kbd-layout"
+
+exit 0
