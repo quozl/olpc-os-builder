@@ -15,10 +15,11 @@ if [ ! -z "$missing" ]; then
 fi
 
 debian_release=$(read_config debian debian_release)
+mirror=$(read_config debian mirror)
 mkdir -p $cachedir/rootfs
 if [ ! -f $cachedir/rootfs/root/debian_cache ];then
   mkdir -p $cachedir/rootfs/root
-  debootstrap --arch i386 $debian_release $cachedir/rootfs ftp://ftp.us.debian.org/debian 
+  debootstrap --arch i386 $debian_release $cachedir/rootfs $mirror
   echo "This file may be deleted. It was used during automated build" > \
 		$cachedir/rootfs/root/debian_cache
 fi
