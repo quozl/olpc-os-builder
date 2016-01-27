@@ -2,23 +2,16 @@
 # Licensed under the terms of the GNU GPL v2 or later; see COPYING for details.
 
 . $OOB__shlib
-compress=$(read_config sd_card_image compress_disk_image)
-keep_img=$(read_config sd_card_image keep_disk_image)
-make_zd=$(read_config sd_card_image make_zd)
+compress=$(read_config mmc_card_image compress_disk_image)
+keep_img=$(read_config mmc_card_image keep_disk_image)
+make_zd=$(read_config mmc_card_image make_zd)
 osname=$(image_name)
-customization_info=$(read_config global customization_info)
-
-# substitute _ for any blanks in customization_info
-info=
-for token in $customization_info;do
-  info=$(echo "${info}_${token}")
-done
 
 function make_zd() {
 	local ext=$1
 	[ -z "$ext" ] && ext="zd"
 
-	local output_name=$osname.$ext$info
+	local output_name=$osname.$ext
 	local diskimg=$intermediatesdir/$output_name.disk.img
 	local output=$outputdir/$output_name
 
