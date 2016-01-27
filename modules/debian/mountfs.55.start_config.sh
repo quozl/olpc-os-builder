@@ -69,7 +69,7 @@ cp -p $cachedir/kernels/$firmware $fsmount/lib/firmware
 cp -p $cachedir/kernels/$firmware $fsmount/lib/firmware/libertas
 echo $firmware > $fsmount/root/firmware_name
 if [ ! -z $helper_url ]; then
-   helper=${firmware_url##*/}
+   helper=${helper_url##*/}
    cp -p $cachedir/kernels/$helper $fsmount/lib/firmware
    cp -p $cachedir/kernels/$helper $fsmount/lib/firmware/libertas
    echo $helper > $fsmount/root/helper_name
