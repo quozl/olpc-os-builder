@@ -261,3 +261,17 @@ chmod u+s /usr/bin/ping
 # undo a change for fedora 20 which breaks runin
 sed -i -e 's^/usr/bin/hciconfig^/usr/sbin/hciconfig^' \
     /runin/runin-bluetooth || true
+
+# restrict transmit queue length, to prevent link saturation when
+# laptop is transmitting large amounts of data.
+# Derived from 01-txqueuelen on ticket #10904,
+# Copyright (C) 2007-8 One Laptop Per Child Association, Inc.
+# Licensed under the terms of the GNU GPL v2 or later; see COPYING for details.
+# Written by Jon Nettleton <jon.nettleton@gmail.com>
+cat >/etc/NetworkManager/dispatcher.d/01-txqueuelen <<EOF
+#!/bin/bash
+[[ "\$1" = "eth0" ]] || exit 0
+[[ "\$2" = "up" ]] || exit 0
+/usr/sbin/ip link set qlen 1 dev \$1
+EOF
+chmod +x /etc/NetworkManager/dispatcher.d/01-txqueuelen
