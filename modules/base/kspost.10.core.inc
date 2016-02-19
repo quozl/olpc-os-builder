@@ -275,3 +275,6 @@ cat >/etc/NetworkManager/dispatcher.d/01-txqueuelen <<EOF
 /usr/sbin/ip link set qlen 1 dev \$1
 EOF
 chmod +x /etc/NetworkManager/dispatcher.d/01-txqueuelen
+
+# NetworkManager-dispatcher is missing, all our scripts were not run.
+systemctl enable NetworkManager-dispatcher
