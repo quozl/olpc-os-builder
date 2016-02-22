@@ -272,7 +272,7 @@ cat >/etc/NetworkManager/dispatcher.d/01-txqueuelen <<EOF
 #!/bin/bash
 [[ "\$1" = "eth0" ]] || exit 0
 [[ "\$2" = "up" ]] || exit 0
-/usr/sbin/ip link set qlen 1 dev \$1
+/usr/sbin/ip link set qlen 8 dev \$1
 EOF
 chmod +x /etc/NetworkManager/dispatcher.d/01-txqueuelen
 
