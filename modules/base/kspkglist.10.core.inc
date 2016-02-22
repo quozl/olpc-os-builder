@@ -64,3 +64,6 @@ ntpdate
 
 # for local patches to sugar
 patch
+
+# for internet performance testing, cost is 65kb on i386
+iperf
