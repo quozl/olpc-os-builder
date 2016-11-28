@@ -14,7 +14,6 @@ sugar-cp-network
 sugar-cp-power
 sugar-cp-updater
 sugar-cp-background
-sugar-cp-webaccount
 
 # additional sugar packages
 dconf
@@ -72,5 +71,5 @@ gstreamer-plugins-espeak
 PolicyKit-gnome
 notification-daemon
 
-# standard part of of PyGTK, used by some activities (#11053)
+# standard part of PyGTK, used by some activities (#11053)
 pygtk2-libglade
