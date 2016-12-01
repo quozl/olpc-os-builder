@@ -56,8 +56,7 @@ if force_enable is not None:
     repos = force_enable.split(',')
     for repo in repos:
         repo = repo.strip()
-        print "#enable first disabled repo in %s" % repo
-        print "sed -i -e '0,/enabled=0/s//enabled=1/' /etc/yum.repos.d/%s.repo\n" % repo
+        print "sed -i -e '0,/enabled=0/s//enabled=1/' /etc/yum.repos.d/%s.repo" % repo
 
 # write shell code to force disable selected repos
 force_disable = ooblib.read_config('yumcfg', 'force_disable')
@@ -65,8 +64,7 @@ if force_disable is not None:
     repos = force_disable.split(',')
     for repo in repos:
         repo = repo.strip()
-        print "#disable first enabled repo in %s" % repo
-        print "sed -i -e '0,/enabled=1/s//enabled=0/' /etc/yum.repos.d/%s.repo\n" % repo
+        print "sed -i -e '0,/enabled=1/s//enabled=0/' /etc/yum.repos.d/%s.repo" % repo
 
 # write shell code to generate excludes file
 excludes = list(excludes)
@@ -83,5 +81,8 @@ if add_excludes is not None:
     repos = add_excludes.split(',')
     for repo in repos:
         repo = repo.strip()
-        print "sed -i -e '/^enabled=/a include=file:///etc/yum/olpc-exclude' /etc/yum.repos.d/%s.repo\n" % repo
+        print "sed -i -e '/^enabled=/a include=file:///etc/yum/olpc-exclude' /etc/yum.repos.d/%s.repo" % repo
 
+# write shell code to avoid fedora secondary architecture mirror failure
+if farch == 'armhfp':
+    print "sed -i 's/mirrorlist/#mirrorlist/g;s%#baseurl=http://download.fedoraproject.org/pub/fedora/linux%baseurl=http://archives.fedoraproject.org/pub/archive/fedora-secondary%g' /etc/yum.repos.d/fedora.repo /etc/yum.repos.d/fedora-updates.repo"
